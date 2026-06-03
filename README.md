@@ -20,7 +20,8 @@ The collected data is stored in a **SQLite database** and can be used for analyt
 ---
 
 ## Project Strukture
-
+<pre>
+```
 OWM-Weather/
 │
 ├── src/
@@ -37,8 +38,8 @@ OWM-Weather/
 ├── .gitignore
 ├── README.md
 └── requirements.txt
-
-
+```
+</pre>
 ---
 
 ## Database Schema
@@ -70,11 +71,11 @@ OWM-Weather/
 
 ### 1. Clone the repository
 
-git clone <repo-url???>
-cd OWM-Weather
+`git clone <repo-url???>`
+`cd OWM-Weather`
 
 ### 2. Install dependencies
-pip install -r requirements.txt
+`pip install -r requirements.txt`
 
 ### 3. Add your API key
 
@@ -82,6 +83,7 @@ Edit `src/config.py`:
 
 ```python
 API_KEY = "DEIN_API_KEY ???"
+```
 
 ### 4. Database initialization
 The SQLite database is created automatically on first run.
@@ -90,9 +92,9 @@ The SQLite database is created automatically on first run.
 
 ## Running the Project
 
-python src/main.py
+python `src/main.py`
 
-This will fetch weather data for all configured cities and store it in data/weather.db.
+This will fetch weather data for all configured cities and store it in `data/weather.db`.
 
 ---
 
@@ -100,7 +102,7 @@ This will fetch weather data for all configured cities and store it in data/weat
 
 To run the script every day at 07:00:
 
-0 7 * * * /usr/bin/python3 /pfad/zu/OWM-Weather/src/main.py >> /pfad/zu/OWM-Weather/logs/cron.log 2>&1
+`0 7 * * * /usr/bin/python3 /pfad/zu/OWM-Weather/src/main.py >> /pfad/zu/OWM-Weather/logs/cron.log 2>&1`
 
 ---
 
@@ -116,3 +118,4 @@ To run the script every day at 07:00:
 ## License
 
 This project is free to use and can be extended as needed.
+

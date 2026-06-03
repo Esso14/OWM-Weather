@@ -1,0 +1,18 @@
+## Ignore sensitive and generated files
+
+# Ignore virtual environments
+venv/
+env/ 
+
+# Ignore cache directories       
+__pycache__/
+
+# Ignore compiled Python files
+*.pyc
+
+# Ignore sensitive configuration files and databases
+.env
+data/weather.db
+
+# Ignore log files
+logs/

@@ -1,7 +1,7 @@
 from config import API_KEY, CITIES
 from db import Database
 from weather_api import WeatherAPI
-from models import City, weatherRecord
+
 
 def main():
     print("Starting OWM Weather Collector...")

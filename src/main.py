@@ -8,34 +8,25 @@ def main():
 
     # Initialize the database and API client
     db = Database()
-    api = WeatherAPI(API_KEY)
-
-    # Create tables if they don't exist
-    # db.create_tables()
+    api = WeatherAPI()
 
     # Fetch and store weather data for each city
-    for city_id, name in CITIES.items():
-        city = City(city_id, name)
-        db.insert_city(city)
+    for city_id, city in CITIES.items():
+        print(f"Fetching weather data for {city['name']}...")
 
-        weather_data = api.get_weather(name)
+        weather_data = api.get_weather(city["lat"], city["lon"])
 
         if weather_data is None:
-            print(f"Failed to fetch weather data for {name}.")
+            print(f"Failed to fetch weather data for {city['name']}.")
             continue        
 
-        record = weatherRecord(
-            city.id,
-            weather_data["description_en"],
-            weather_data["description_de"],
-            weather_data["temp"],
-            weather_data["temp_min"],
-            weather_data["temp_max"],
-            weather_data["date"]
-        )
+        weather_data.city_id = city_id
+        db.insert_weather_record(weather_data)
 
-        db.insert_weather(record)
-        print("Weather updated.")
+        print(f"Weather data for {city['name']} stored successfully.")
+
+    print("Weather updated.")
+
 
 if __name__ == "__main__":
     main()

@@ -1,0 +1,7 @@
+requests
+requests-cache
+pandas
+matplotlib
+click
+
+python-dotenv

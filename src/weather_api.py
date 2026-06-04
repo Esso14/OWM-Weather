@@ -1,6 +1,6 @@
 import requests
 from config import API_KEY, API_URL
-from db import DB
+from db import Database
 from models import City, WeatherRecord
 from datetime import datetime
 
@@ -38,7 +38,7 @@ class WeatherAPI:
                 temp=data_en["main"]["temp"],
                 temp_min=data_en["main"]["temp_min"],
                 temp_max=data_en["main"]["temp_max"],
-                date=datetime.now().isoformat("%Y-%m-%d %H:%M:%S")
+                date=datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             )
         except requests.RequestException as e:
             print(f"Error fetching weather data: {e}")

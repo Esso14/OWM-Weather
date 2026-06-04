@@ -17,7 +17,9 @@ class Database:
             cursor.execute('''
                 CREATE TABLE IF NOT EXISTS cities (
                     city_id INTEGER PRIMARY KEY,
-                    name TEXT NOT NULL
+                    name TEXT NOT NULL,
+                    lat REAL,
+                    lon REAL
                 )
             ''')
 
@@ -42,9 +44,9 @@ class Database:
         with self._connect() as conn:
             cursor = conn.cursor()
             cursor.execute('''
-                INSERT OR REPLACE INTO cities (city_id, name) 
-                VALUES (?, ?)
-            ''', (city.city_id, city.name))
+                INSERT OR REPLACE INTO cities (city_id, name, lat, lon) 
+                VALUES (?, ?, ?, ?)
+            ''', (city.city_id, city.name, city.lat, city.lon))
 
             conn.commit()
             conn.close()

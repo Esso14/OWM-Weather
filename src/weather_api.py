@@ -3,6 +3,9 @@ from config import API_KEY, API_URL
 from db import Database
 from models import City, WeatherRecord
 from datetime import datetime
+from logger import setup_logger
+
+logger = setup_logger(__name__)
 
 class WeatherAPI:
 
@@ -41,5 +44,5 @@ class WeatherAPI:
                 date=datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             )
         except requests.RequestException as e:
-            print(f"Error fetching weather data: {e}")
+            logger.error(f"Error fetching weather data: {e}")
             return None

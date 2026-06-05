@@ -1,5 +1,8 @@
 import sqlite3
 from models import City, WeatherRecord
+from logger import setup_logger
+
+logger = setup_logger(__name__)
 
 class Database:
     def __init__(self, db_path="data/weather.db"):
@@ -69,6 +72,7 @@ class Database:
             record.date
         ))
 
+        logger.info("Weather record inserted successfully.")
         conn.commit()
         conn.close()
 

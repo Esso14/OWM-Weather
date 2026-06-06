@@ -1,6 +1,7 @@
 from config import API_KEY, CITIES
 from db import Database
 from weather_api import WeatherAPI
+import exporter
 from logger import setup_logger
 
 logger = setup_logger("main")
@@ -11,11 +12,13 @@ def main():
 
         # Initialize the database and API client
         db = Database()
+        db.init_cities_from_config() # Ensure cities from config are in the database
         api = WeatherAPI()
 
         # Fetch and store weather data for each city
         for city_id, city in CITIES.items():
             try:
+
                 logger.info(f"Fetching weather data for {city['name']}...")
 
                 weather_data = api.get_weather(city["lat"], city["lon"])
@@ -32,11 +35,15 @@ def main():
             except Exception as e:
                 logger.exception(f"Error processing city {city['name']}: {e}")
 
+        exporter.export_to_json()
+        exporter.export_to_csv()
+        
         logger.info("Weather updated.")
 
     except Exception as e:
         logger.exception(f"An error occurred: {e}")
 
+    
 
 if __name__ == "__main__":
     main()

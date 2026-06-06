@@ -16,10 +16,11 @@ The collected data is stored in a **SQLite database** and can be used for analyt
 - Weather descriptions available in English and German
 - In‑memory caching with TTL (Time-to-live)
 - Background cleaner thread for expired cache entries
-- Stopping the cleaner vor exempl by shut down: weather_api.stop_cleaner()
+- Stopping the cleaner vor exemple by shut down: weather_api.stop_cleaner()
 - Logging for debugging and monitoring  
-- Clean and modular architecture  
-- Easily extendable (CLI mode, JSON export, history view, etc.)
+- Clean and modular architecture
+- JSON and CSV export  
+- Easily extendable (CLI mode, history view, etc.)
 - Suitable for automation via Cron or Task Scheduler
 
 ---
@@ -33,11 +34,16 @@ OWM-Weather/
 │   ├── config.py
 │   ├── logger.py
 │   ├── db.py
+│   ├── exporter.py
 │   ├── weather_api.py
 │   ├── models.py
 │
 ├── data/
 │   └── weather.db
+│
+├── exports/
+│   └── weather.csv
+│   └── weather.json
 │
 ├── logs/
 │   └── weather.log

@@ -17,7 +17,7 @@ class WeatherAPI:
         self.cache = {} # Cache with keys as (lat, lon, lang): and values as (weather_data, timestamp)
         self.cache_ttl = cache_ttl # Time to live for cache entries in seconds
         self.cleanup_interval = cleanup_interval # Time interval for cache cleanup in seconds
-        self._stop_cleanup = False
+        self._stop_cleaner = False # Flag to stop the cleaner thread
         self._lock = threading.Lock() # Lock for thread-safe cache access
         self._start_cleaner() # Background-Creaner starten
 
@@ -73,6 +73,7 @@ class WeatherAPI:
         if removed > 0:
             logger.info(f"Cache cleanup: removed {removed} expired entries")
 
+    # Stop the cleaner thread gracefully: weather_api.stop_cleaner() in main.py
     def stop_cleaner(self):
         self._stop_cleaner = True
 

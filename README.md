@@ -7,26 +7,31 @@ The collected data is stored in a **SQLite database** and can be used for analyt
 
 ## Features
 
-- Fetches weater data for:
+- Fetches weater data based on latitude & longitude for:
   - Berlin
-  - Aachen
   - Stuttgart
+  - Munich 
 - Stores all weather data in a SQLite database
 - Clean object‑oriented architecture (API client, DB layer, data models)
 - Weather descriptions available in English and German
-- Easily extendable (logging, caching, CLI mode, JSON export, history view, etc.)
+- In‑memory caching with TTL (Time-to-live)
+- Background cleaner thread for expired cache entries
+- Stopping the cleaner vor exempl by shut down: weather_api.stop_cleaner()
+- Logging for debugging and monitoring  
+- Clean and modular architecture  
+- Easily extendable (CLI mode, JSON export, history view, etc.)
 - Suitable for automation via Cron or Task Scheduler
 
 ---
 
 ## Project Strukture
 <pre>
-```
 OWM-Weather/
 │
 ├── src/
 │   ├── main.py
 │   ├── config.py
+│   ├── logger.py
 │   ├── db.py
 │   ├── weather_api.py
 │   ├── models.py
@@ -35,10 +40,11 @@ OWM-Weather/
 │   └── weather.db
 │
 ├── logs/
+│   └── weather.log
+│
 ├── .gitignore
 ├── README.md
 └── requirements.txt
-```
 </pre>
 ---
 
@@ -46,18 +52,20 @@ OWM-Weather/
 
 ### Table: `city`
 
-| Column     | Type    | Description        |
-|------------|---------|--------------------|
-| city_id    | INTEGER | Primary key        |
-| city_name  | TEXT    | Name of the city   |
+| Column     | Type    | Description           |
+|------------|---------|-----------------------|
+| city_id    | INTEGER | Primary key           |
+| city_name  | TEXT    | Name of the city      |
+| lat        | REAL    | Latitude of the city  |
+| lon        | REAL    | Longitude of the city |
 
 
 ### Table: `weather`
 
-| Column         | Type    | Description                           |
+| Column         | Type    | Description                            |
 |----------------|---------|----------------------------------------|
 | id             | INTEGER | Primary key                            |
-| fk_city_id     | INTEGER | Foreign key → `city.city_id`           |
+| city_id        | INTEGER | Foreign key → `city.city_id`           |
 | description_en | TEXT    | Weather description (English)          |
 | description_de | TEXT    | Weather description (German)           |
 | temp           | REAL    | Temperature                            |
@@ -105,6 +113,8 @@ To run the script every day at 07:00:
 `0 7 * * * /usr/bin/python3 /pfad/zu/OWM-Weather/src/main.py >> /pfad/zu/OWM-Weather/logs/cron.log 2>&1`
 
 ---
+
+
 
 ## Technologies Used
 

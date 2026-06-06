@@ -16,3 +16,6 @@ data/weather.db
 
 # Ignore log files
 logs/
+
+ # Ignore export files
+exports/

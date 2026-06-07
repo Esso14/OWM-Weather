@@ -4,7 +4,7 @@ from weather_api import WeatherAPI
 import exporter
 from logger import setup_logger
 
-logger = setup_logger("main")
+logger = setup_logger(__name__)
 
 def main():
     try:
@@ -34,16 +34,12 @@ def main():
 
             except Exception as e:
                 logger.exception(f"Error processing city {city['name']}: {e}")
-
-        exporter.export_to_json()
-        exporter.export_to_csv()
         
         logger.info("Weather updated.")
 
     except Exception as e:
         logger.exception(f"An error occurred: {e}")
-
-    
+ 
 
 if __name__ == "__main__":
     main()

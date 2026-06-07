@@ -20,6 +20,7 @@ The collected data is stored in a **SQLite database** and can be used for analyt
 - Logging for debugging and monitoring  
 - Clean and modular architecture
 - JSON and CSV export  
+- CLI mode: weather collect, json export, csv export or run-all
 - Easily extendable (CLI mode, history view, etc.)
 - Suitable for automation via Cron or Task Scheduler
 
@@ -38,6 +39,7 @@ OWM-Weather/
 │   ├── weather_api.py
 │   ├── weather_cache.py
 │   ├── models.py
+│   ├── cli.py
 │
 ├── data/
 │   └── weather.db
@@ -96,9 +98,10 @@ OWM-Weather/
 
 Edit `src/config.py`:
 
-```python
-API_KEY = "DEIN_API_KEY ???"
-```
+Add your `.env`
+ - `API_KEY = "YOUR_API_KEY"`
+ - `API_URL = "https://api.openweathermap.org/data/2.5/weather"` for exemple
+
 
 ### 4. Database initialization
 The SQLite database is created automatically on first run.
@@ -107,9 +110,18 @@ The SQLite database is created automatically on first run.
 
 ## Running the Project
 
-python `src/main.py`
+### Option 1: 
+#### a. Fetch weather data for all configured cities and store it in `data/weather.db`
+   `python3 src/main.py` or `python3 src/cli.py data-collect`
 
-This will fetch weather data for all configured cities and store it in `data/weather.db`.
+#### b. Export weather data to JSON
+   `python3 src/cli.py export-json`
+
+#### c. Export weather data to CSV
+   `python3 src/cli.py export-csv`
+
+### Option 2: Collect weather data and export into JSON and CSV files
+   `python3 src/cli.py run-all`
 
 ---
 

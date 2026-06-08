@@ -21,6 +21,7 @@ The collected data is stored in a **SQLite database** and can be used for analyt
 - Clean and modular architecture
 - JSON and CSV export  
 - CLI mode: weather collect, json export, csv export or run-all
+- CLI: Day history view --> plot
 - Easily extendable (CLI mode, history view, etc.)
 - Suitable for automation via Cron or Task Scheduler
 
@@ -40,6 +41,8 @@ OWM-Weather/
 │   ├── weather_cache.py
 │   ├── models.py
 │   ├── cli.py
+│   ├── plotter.py
+│   ├── history.py
 │
 ├── data/
 │   └── weather.db
@@ -123,6 +126,9 @@ The SQLite database is created automatically on first run.
 ### Option 2: Collect weather data and export into JSON and CSV files
    `python3 src/cli.py run-all`
 
+###  Run City history:
+   `python3 src/cli.py history --city Berlin --plot`
+
 ---
 
 ## Automation (Cronjob Example)
@@ -132,7 +138,6 @@ To run the script every day at 07:00:
 `0 7 * * * /usr/bin/python3 /pfad/zu/OWM-Weather/src/main.py >> /pfad/zu/OWM-Weather/logs/cron.log 2>&1`
 
 ---
-
 
 
 ## Technologies Used

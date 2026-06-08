@@ -1,10 +1,12 @@
 import argparse
 from colorama import Fore, Style
 from main import main
+import history
 import exporter
-from logger import setup_logger
 
-logger = setup_logger(__name__)
+import logger
+
+logger = logger.setup_logger(__name__)
 
 def create_cli():
     parser = argparse.ArgumentParser(
@@ -30,13 +32,20 @@ def create_cli():
         help="Export weather data to CSV file"
     )
 
+    # HISTORY
+    history = subparsers.add_parser("history", help="Show historical weather data for a specific city")
+    history.add_argument("--city", required=True)
+    history.add_argument("--plot", action="store_true")
+
+
     # run-all: collect data and export
     subparsers.add_parser(
         "run-all",
-        help="Collect weather data and export to JSON and CSV files"
+        help="Collect weather data, export to JSON and CSV files und then show historical data for a specific city"
     )   
 
     return parser
+
 
 def main_cli():
     parser = create_cli()
@@ -51,6 +60,9 @@ def main_cli():
     elif args.command == "export-csv":
         exporter.export_to_csv()
 
+    elif args.command == "history":
+        history.day_history(args)
+        
     elif args.command == "run-all":
         main()
         exporter.export_to_json()

@@ -13,6 +13,12 @@ class Database:
     def _connect(self):
         return sqlite3.connect(self.db_path)
     
+#-----------------------------#
+# Database Operations         #
+#-----------------------------#
+    #-------------------------------------------------------------------------------#
+    # Table Creation: Creates cities and weather_records tables if they don't exist #
+    #-------------------------------------------------------------------------------#  
     def _create_tables(self):
         conn = self._connect()
         cursor = conn.cursor()
@@ -43,7 +49,9 @@ class Database:
         conn.commit()
         conn.close()
 
-    
+    #-------------------------------------------------------------------------------#
+    # City Operations: Insert cities and initialize from config                     #
+    #-------------------------------------------------------------------------------#
     def insert_city(self, city: City):
         conn = self._connect()
         cursor = conn.cursor()
@@ -87,7 +95,9 @@ class Database:
         conn.commit()
         conn.close()
 
-
+    #-------------------------------------------------------------------------------#
+    # Weather Record Operations: Insert weather records                             #
+    #-------------------------------------------------------------------------------#
     def insert_weather_record(self, record: WeatherRecord):
         conn = self._connect()
         cursor = conn.cursor()
@@ -109,6 +119,9 @@ class Database:
         conn.commit()
         conn.close()
 
+    #-------------------------------------------------------------------------------#
+    # Weather Record Operations: retrieve weather records                           #
+    #-------------------------------------------------------------------------------#
     def get_all_weather(self):
         conn = self._connect()
         cursor = conn.cursor()
@@ -145,6 +158,9 @@ class Database:
             for row in rows
         ]
     
+    #-------------------------------------------------------------------------------#
+    # Weather Record Operations: retrieve weather records grouped by city                           #
+    #-------------------------------------------------------------------------------#
     def get_all_weather_grouped(self):
         conn = self._connect()
         cursor = conn.cursor()
@@ -187,4 +203,39 @@ class Database:
             grouped_data[city_name].append(record)
 
         return grouped_data
+    
+    #-----------------------------------------------------------------------------------#
+    # Weather Record Operations: retrieve weather records for a specific city for plot  #
+    #-----------------------------------------------------------------------------------#
+    def get_history_records(self, city_name):
+        conn = self._connect()
+        cursor = conn.cursor()
+
+        cursor.execute('''
+            SELECT 
+                c.name AS city_name,
+                AVG(w.temp) AS temp,
+                MIN(w.temp_min) AS temp_min,
+                MAX(w.temp_max) AS temp_max,
+                w.date AS date
+            FROM weather_records w
+            JOIN cities c ON w.city_id = c.city_id
+            WHERE c.name = ?
+            GROUP BY c.name, strftime('%Y-%m-%d', w.date)
+            ORDER BY strftime('%Y-%m-%d', w.date) ASC
+        ''', (city_name,))
+
+        rows = cursor.fetchall()
+        conn.close()
+
+        return [
+            {
+                "city_name": row[0],
+                "temp": row[1],
+                "temp_min": row[2],
+                "temp_max": row[3],
+                "date": row[4]
+            }
+            for row in rows     
+        ]
     

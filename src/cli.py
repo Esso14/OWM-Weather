@@ -1,6 +1,6 @@
 import argparse
 from colorama import Fore, Style
-from main import main
+import fetch
 import history
 import exporter
 
@@ -52,7 +52,7 @@ def main_cli():
     args = parser.parse_args()
 
     if args.command == "data-collect":
-        main()
+        fetch.fetch_data()
 
     elif args.command == "export-json":
         exporter.export_to_json()
@@ -64,12 +64,12 @@ def main_cli():
         history.day_history(args)
         
     elif args.command == "run-all":
-        main()
+        fetch.fetch_data()
         exporter.export_to_json()
         exporter.export_to_csv()
 
     else:
         parser.print_help()
 
-if __name__ == "__main__":
-    main_cli()
+#if __name__ == "__main__":
+    #main_cli()

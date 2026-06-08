@@ -21,7 +21,7 @@ The collected data is stored in a **SQLite database** and can be used for analyt
 - Clean and modular architecture
 - JSON and CSV export  
 - CLI mode: weather collect, json export, csv export or run-all
-- CLI: history view --> plot
+- CLI: Day history view --> plot
 - Easily extendable (CLI mode, history view, etc.)
 - Suitable for automation via Cron or Task Scheduler
 
@@ -42,6 +42,7 @@ OWM-Weather/
 │   ├── models.py
 │   ├── cli.py
 │   ├── plotter.py
+│   ├── history.py
 │
 ├── data/
 │   └── weather.db

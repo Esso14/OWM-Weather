@@ -1,10 +1,9 @@
 import argparse
 from colorama import Fore, Style
 from main import main
-from db import Database
+import history
 import exporter
 
-import plotter
 import logger
 
 logger = logger.setup_logger(__name__)
@@ -47,17 +46,6 @@ def create_cli():
 
     return parser
 
-def run_history(args):
-    db = Database()
-    logger.info(f"Fetching historical weather data for city: {args.city}")
-    records = db.get_history_records(args.city)
-
-    if args.plot:
-        plotter.plot_history(args.city, records)
-    else:
-        for record in records:
-            print(f"{record['date']}: {record['temp']}°C (Min: {record['temp_min']}°C, Max: {record['temp_max']}°C)")
-
 
 def main_cli():
     parser = create_cli()
@@ -73,8 +61,7 @@ def main_cli():
         exporter.export_to_csv()
 
     elif args.command == "history":
-        run_history(args)
-
+        history.day_history(args)
         
     elif args.command == "run-all":
         main()

@@ -1,10 +1,13 @@
 import argparse
 from colorama import Fore, Style
 from main import main
+from db import Database
 import exporter
-from logger import setup_logger
 
-logger = setup_logger(__name__)
+import plotter
+import logger
+
+logger = logger.setup_logger(__name__)
 
 def create_cli():
     parser = argparse.ArgumentParser(
@@ -30,13 +33,31 @@ def create_cli():
         help="Export weather data to CSV file"
     )
 
+    # HISTORY
+    history = subparsers.add_parser("history", help="Show historical weather data for a specific city")
+    history.add_argument("--city", required=True)
+    history.add_argument("--plot", action="store_true")
+
+
     # run-all: collect data and export
     subparsers.add_parser(
         "run-all",
-        help="Collect weather data and export to JSON and CSV files"
+        help="Collect weather data, export to JSON and CSV files und then show historical data for a specific city"
     )   
 
     return parser
+
+def run_history(args):
+    db = Database()
+    logger.info(f"Fetching historical weather data for city: {args.city}")
+    records = db.get_history_records(args.city)
+
+    if args.plot:
+        plotter.plot_history(args.city, records)
+    else:
+        for record in records:
+            print(f"{record['date']}: {record['temp']}°C (Min: {record['temp_min']}°C, Max: {record['temp_max']}°C)")
+
 
 def main_cli():
     parser = create_cli()
@@ -51,6 +72,10 @@ def main_cli():
     elif args.command == "export-csv":
         exporter.export_to_csv()
 
+    elif args.command == "history":
+        run_history(args)
+
+        
     elif args.command == "run-all":
         main()
         exporter.export_to_json()

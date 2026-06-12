@@ -91,7 +91,7 @@ OWM-Weather/
 
 ### 1. Clone the repository
 
-`git clone <repo-url???>`
+`git clone <https://github.com/Esso14/OWM-Weather>`
 `cd OWM-Weather`
 
 ### 2. Install dependencies
@@ -127,7 +127,8 @@ The SQLite database is created automatically on first run.
    `python3 src/cli.py run-all`
 
 ###  Run City history:
-   `python3 src/cli.py history --city Berlin --plot`
+   `python3 src/cli.py history --city city_name` or
+   `python3 src/cli.py history --city city_name --plot`
 
 ---
 
@@ -135,7 +136,7 @@ The SQLite database is created automatically on first run.
 
 To run the script every day at 07:00:
 
-`0 7 * * * /usr/bin/python3 /pfad/zu/OWM-Weather/src/main.py >> /pfad/zu/OWM-Weather/logs/cron.log 2>&1`
+`0 7 * * * /usr/bin/python3 /pfad/zu/OWM-Weather/src/main.py
 
 ---
 
